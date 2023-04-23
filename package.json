@@ -1,0 +1,21 @@
+{
+  "name": "wasm-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.1.0",
+    "vite-plugin-top-level-await": "^1.3.0",
+    "vite-plugin-wasm": "^3.2.2",
+    "vite-plugin-wasm-pack": "^0.1.12"
+  },
+  "dependencies": {
+    "wasm-image-editor": "file:../Documents/wasm-image-editor/pkg"
+  }
+}
