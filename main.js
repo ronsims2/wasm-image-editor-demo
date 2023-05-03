@@ -1,5 +1,6 @@
 import init, { greet, resize_image } from 'wasm-image-editor'
 import axios from 'axios'
+import photonInit, { resize, open_image, putImageData } from 'photon-web'
 
 import './style.css'
 
@@ -14,6 +15,38 @@ const opMode = document.querySelector('#op_mode')
 let useWasm = opMode.checked
 opMode.addEventListener('click', (e) => {
     useWasm = e.target.checked
+})
+
+photonInit().then(x => {
+    const uploadElement = document.querySelector('#image_upload_2')
+    uploadElement.addEventListener('change', (e) => {
+        const start = performance.now()
+        const fileUrl = URL.createObjectURL(e.target.files[0])
+        const img = new Image()
+        img.addEventListener('load', (evt) => {
+            const canvas = document.createElement('canvas')
+            canvas.width = evt.target.naturalWidth
+            canvas.height = evt.target.naturalHeight
+            const newWidth = Math.floor(RESIZE_FACTOR * e.target.naturalWidth)
+            const newHeight = Math.floor(RESIZE_FACTOR * e.target.naturalHeight)
+            const ctx = canvas.getContext('2d')
+            ctx.drawImage(evt.target, 0, 0, ctx.canvas.width, ctx.canvas.height)
+
+            const photonImg = open_image(canvas, ctx)
+            const resizedImg = resize(photonImg, newWidth, newHeight, 1)
+            canvas.width = newWidth
+            canvas.height = newHeight
+            putImageData(canvas, ctx, resizedImg)
+
+            const newImage = new Image()
+            img.src = canvas.toDataURL()
+
+            const app = document.querySelector('#app')
+            app.append(newImage)
+            console.log(`Photon resize exec time: ${(performance.now() - start) / 1000}s`)
+        })
+        img.src = fileUrl
+    })
 })
 
 init().then(x => {
