@@ -17,6 +17,14 @@ opMode.addEventListener('click', (e) => {
     useWasm = e.target.checked
 })
 
+function appendPerfBox(stat, parent) {
+    const div = document.createElement('div')
+    div.classList.add('stats')
+    div.innerHTML = stat
+
+    parent.append(div)
+}
+
 photonInit().then(() => {
     const uploadElement = document.querySelector('#image_upload_2')
     uploadElement.addEventListener('change', (e) => {
@@ -40,10 +48,12 @@ photonInit().then(() => {
 
             const newImage = new Image()
             newImage.src = canvas.toDataURL()
-
             const app = document.querySelector('#app')
+            const stat = `Photon resize exec time: ${(performance.now() - start) / 1000}s`
             app.append(newImage)
-            console.log(`Photon resize exec time: ${(performance.now() - start) / 1000}s`)
+            appendPerfBox(stat, app)
+            console.log(stat)
+            e.target.value = null
         })
         img.src = fileUrl
     })
@@ -67,7 +77,9 @@ init().then(() => {
                     img.src = resizedImageUrl
                     const app = document.querySelector('#app')
                     app.append(img)
-                    console.log(`WASM exec time: ${(performance.now() - start) / 1000}s`)
+                    const stat = `WASM exec time: ${(performance.now() - start) / 1000}s`
+                    appendPerfBox(stat, app)
+                    console.log(stat)
                 })
             } else {
                 // use canvas
@@ -87,11 +99,14 @@ init().then(() => {
                     newImage.src = canvas.toDataURL()
                     const app = document.querySelector('#app')
                     app.append(newImage)
-                    console.log(`Canvas resize exec time: ${(performance.now() - start) / 1000}s`)
+                    const stat = `Canvas resize exec time: ${(performance.now() - start) / 1000}s`
+                    appendPerfBox(stat, app)
+                    console.log(stat)
                 })
 
                 img.src = fileUrl
             }
+            e.target.value = null
         }
     })
     // demo call to js from wasm
