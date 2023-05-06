@@ -26,11 +26,13 @@ You many need to add a main entry for both the `wasm-image-editor` and `photon-w
 wasm-image-editor, photon-web and canvas were benchmarked using  approximately 9MB (5184x3456) images.  Average results below.
 
 
-| tool              | time |
-|-------------------|---|
-| HTML5 canvas      | 500ms  |
-| wasm-image-editor | 3000ms |
-| photon-web | 1800ms |
+| tool              | time   | algorithm |
+|-------------------|--------|-----------|
+| HTML5 canvas      | 500ms  |           |
+| wasm-image-editor | 3000ms | lanczos3  |
+| wasm-image-editor | 1300ms | nearest   |
+| photon-web | 1800ms |           |
+
 
 I think `wasm-image-editor`, and `photo-web` are slow due to the vite plugin and or the algorithm used to resize.
 
