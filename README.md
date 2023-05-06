@@ -22,6 +22,22 @@ Do not forget to add WASM dependecies to the vite config!
 You many need to add a main entry for both the `wasm-image-editor` and `photon-web`. 
 
 
+### Notes
+wasm-image-editor, photon-web and canvas were benchmarked using  approximately 9MB (5184x3456) images.  Average results below.
+
+
+| tool              | time |
+|-------------------|---|
+| HTML5 canvas      | 500ms  |
+| wasm-image-editor | 3000ms |
+| photon-web | 1800ms |
+
+I think `wasm-image-editor`, and `photo-web` are slow due to the vite plugin and or the algorithm used to resize.
+
+
+
+
+
 ### Resources
 * https://stackoverflow.com/questions/72587871/how-to-include-an-wasm-npm-module-in-svelte-with-vite
 
