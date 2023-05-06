@@ -17,7 +17,7 @@ opMode.addEventListener('click', (e) => {
     useWasm = e.target.checked
 })
 
-photonInit().then(x => {
+photonInit().then(() => {
     const uploadElement = document.querySelector('#image_upload_2')
     uploadElement.addEventListener('change', (e) => {
         const start = performance.now()
@@ -27,8 +27,8 @@ photonInit().then(x => {
             const canvas = document.createElement('canvas')
             canvas.width = evt.target.naturalWidth
             canvas.height = evt.target.naturalHeight
-            const newWidth = Math.floor(RESIZE_FACTOR * e.target.naturalWidth)
-            const newHeight = Math.floor(RESIZE_FACTOR * e.target.naturalHeight)
+            const newWidth = Math.floor(RESIZE_FACTOR * evt.target.naturalWidth)
+            const newHeight = Math.floor(RESIZE_FACTOR * evt.target.naturalHeight)
             const ctx = canvas.getContext('2d')
             ctx.drawImage(evt.target, 0, 0, ctx.canvas.width, ctx.canvas.height)
 
@@ -39,7 +39,7 @@ photonInit().then(x => {
             putImageData(canvas, ctx, resizedImg)
 
             const newImage = new Image()
-            img.src = canvas.toDataURL()
+            newImage.src = canvas.toDataURL()
 
             const app = document.querySelector('#app')
             app.append(newImage)
@@ -49,7 +49,7 @@ photonInit().then(x => {
     })
 })
 
-init().then(x => {
+init().then(() => {
     const uploadElement = document.querySelector('#image_upload')
     uploadElement.addEventListener('change', (e) => {
         if (e.target.files.length) {

@@ -16,6 +16,11 @@ From insider the web package that is using the wasm crate from npm, run:
 Start the server
 `npm run dev`
 
+### Troubleshooting
+
+Do not forget to add WASM dependecies to the vite config!
+You many need to add a main entry for both the `wasm-image-editor` and `photon-web`. 
+
 
 ### Resources
 * https://stackoverflow.com/questions/72587871/how-to-include-an-wasm-npm-module-in-svelte-with-vite
