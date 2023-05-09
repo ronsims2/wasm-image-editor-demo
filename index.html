@@ -8,7 +8,8 @@
   </head>
   <body>
     <div id="app">
-      <label>Operation Mode</label>
+      <h3>wasm-image-editor & Canvas</h3>
+      <label>Operation Mode (check for WASM, uncheck for Canvas)</label>
       <input type="checkbox" id="op_mode" name="op_mode" checked>
       <hr/>
       <label>Upload an Image</label>
@@ -17,7 +18,12 @@
       <h3>photon-rs</h3>
       <label>Upload an Image</label>
       <input type="file" id="image_upload_2" name="img_upload_2" accept="image/*" />
+      <hr/>
+      <h3>JIMP</h3>
+      <label>Upload an Image</label>
+      <input type="file" id="image_upload_3" name="img_upload_3" accept="image/*" />
     </div>
+    <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jimp/0.22.7/jimp.min.js"></script>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

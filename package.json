@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "jimp": "^0.22.7",
     "photon-web": "^0.3.2",
     "wasm-image-editor": "file:../Documents/wasm-image-editor/pkg"
   }

@@ -25,6 +25,39 @@ function appendPerfBox(stat, parent) {
     parent.append(div)
 }
 
+async function resizeWithJimp(url, resizeFactor) {
+    const img = await window.Jimp.read(url).catch(err => console.error(err))
+    const {width, height} = img.bitmap
+    const newWidth = Math.floor(width * resizeFactor)
+    const newHeight = Math.floor(height * resizeFactor)
+
+    const resizedImg = await img.resize(newWidth, newHeight)
+
+    const base64Url = await resizedImg.getBase64Async(Jimp.AUTO)
+
+    return base64Url
+}
+
+function setUpJimp() {
+    const uploadElement = document.querySelector('#image_upload_3')
+    uploadElement.addEventListener('change', async (e) => {
+        const start = performance.now()
+        const fileUrl = URL.createObjectURL(e.target.files[0])
+        const img = new Image()
+        const resizedImgUrl = await resizeWithJimp(fileUrl, RESIZE_FACTOR)
+        img.src = resizedImgUrl
+        const stat = `JIMP resize exec time: ${(performance.now() - start) / 1000}s`
+        const app = document.querySelector('#app')
+        app.append(img)
+        appendPerfBox(stat, app)
+        console.log(stat)
+
+        e.target.value = null
+    })
+}
+
+setUpJimp()
+
 photonInit().then(() => {
     const uploadElement = document.querySelector('#image_upload_2')
     uploadElement.addEventListener('change', (e) => {
@@ -53,6 +86,7 @@ photonInit().then(() => {
             app.append(newImage)
             appendPerfBox(stat, app)
             console.log(stat)
+
             e.target.value = null
         })
         img.src = fileUrl
@@ -106,6 +140,7 @@ init().then(() => {
 
                 img.src = fileUrl
             }
+
             e.target.value = null
         }
     })
