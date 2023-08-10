@@ -1,4 +1,4 @@
-import init, { greet, resize_image } from 'wasm-image-editor'
+import init, { greet, resize_image, get_exif_data } from 'wasm-image-editor'
 import axios from 'axios'
 import photonInit, { resize, open_image, putImageData } from 'photon-web'
 
@@ -57,6 +57,27 @@ function setUpJimp() {
 }
 
 setUpJimp()
+
+function setupExif() {
+    const uploadElement = document.querySelector('#image_upload_4')
+    uploadElement.addEventListener('change', async (e) => {
+        const start = performance.now()
+        const fileUrl = URL.createObjectURL(e.target.files[0])
+        axios.get(fileUrl, { responseType: 'blob'}).then(data => {
+            return data.data.arrayBuffer()
+        }).then(data => {
+            const dataArray = new Uint8Array(data)
+            const exifData = get_exif_data(dataArray)
+            const stat = `WASM exec time: ${(performance.now() - start) / 1000}s`
+            appendPerfBox(exifData, app)
+            console.log(exifData)
+        })
+
+        e.target.value = null
+    })
+}
+
+setupExif()
 
 photonInit().then(() => {
     const uploadElement = document.querySelector('#image_upload_2')
