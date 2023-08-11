@@ -67,7 +67,8 @@ function setupExif() {
             return data.data.arrayBuffer()
         }).then(data => {
             const dataArray = new Uint8Array(data)
-            const exifData = get_exif_data(dataArray)
+            // A map can be sent back but an object cannot, so handle this client side
+            const exifData = Object.fromEntries(get_exif_data(dataArray))
             const stat = `WASM exec time: ${(performance.now() - start) / 1000}s`
             appendPerfBox(exifData, app)
             console.log(exifData)
